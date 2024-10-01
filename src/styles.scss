@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/scss/bootstrap.scss";
+@import 'ngx-toastr/toastr-bs5-alert';
+
+.altura_completa {
+    min-height: 87vh;
+}

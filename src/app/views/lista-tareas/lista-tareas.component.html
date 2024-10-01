@@ -1,0 +1,61 @@
+<div class="card mb-3">
+    <div class="card-body py-2">
+        <div class="row align-items-center">
+            <h3 class="col-12 col-md-8 col-lg-9">Lista de tareas</h3>
+            <form class="col-12 col-md-4 col-lg-3" [formGroup]="filtro">
+                <div class="input-group">
+                    <span class="input-group-text"><svg width="20" height="20" class="DocSearch-Search-Icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg></span>
+                    <select class="form-select" formControlName="estadoSeleccionado">
+                        <option selected value="">Mostrar todos</option>
+                        <option value="1">Pendientes</option>
+                        <option value="2">Terminadas</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <a class="col-12 col-lg-4 col-xxl-3" routerLink="/crear" style="text-decoration: none;">
+        <div class="card h-100">
+            <div class="card-body d-flex justify-content-center align-items-center flex-column">
+                <span class="fs-1 text-primary mb-3 py-0">&plus;</span>
+                <span class="text-primary text-bolder">Crear nueva tarea</span>
+            </div>
+        </div>
+    </a>
+
+    <div *ngFor="let tarea of tareasDisponibles()" class="col-12 col-lg-4 col-xxl-3">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-0">{{tarea.nombre}}</h5>
+                <hr>
+                <div class="d-flex justify-content-between">
+                    <h6 class="card-subtitle pt-1 text-body-secondary"><b>Límite:</b> {{tarea.fechaFin}}</h6>
+                    <span [ngClass]="traducirEstado(tarea.estado).color">{{traducirEstado(tarea.estado).nombre}}</span>
+                </div>
+                <br>
+                <div class="mb-2" *ngFor="let persona of tarea.personas">
+                    <div class="d-flex justify-content-between align-items-center" style="font-size: smaller;">
+                        <p class="card-text mb-0">{{persona.nombre}} ({{persona.edad}})</p>
+                        <button
+                        type="button"
+                        class="btn btn-link py-0"
+                        style="font-size: small;"
+                        (click)="abrirModalHabilidades(persona)"
+                        tooltip="{{persona.habilidades.join(', ')}}">
+                            Ver {{persona.habilidades.length}} habilidades
+                        </button>
+                    </div>
+                    <hr class="mt-0 mb-2">
+                </div>
+                <div class="d-flex justify-content-around mt-3">
+                    <button *ngIf="tarea.estado===2" type="button" class="btn btn-outline-secondary btn-sm col-12" (click)="toggleEstado(tarea, 1)">Reactivar</button>
+                    <button *ngIf="tarea.estado===1" type="button" class="btn btn-success btn-sm col-5" (click)="toggleEstado(tarea, 2)">Completar</button>
+                    <button *ngIf="tarea.estado===1" type="button" class="btn btn-danger btn-sm col-5" (click)="eliminarTarea(tarea.id)">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+<div>
+    <div class="modal-header bg-dark text-white">
+        <h4 class="modal-title pull-left">{{persona?.nombre}}</h4>
+        <button type="button" class="btn-close close pull-right text-white" aria-label="Close" (click)="modalRef.hide()"></button>
+    </div>
+    <div class="modal-body bg-light">
+        <p>Lista de habilidades</p>
+        <ul>
+            <li *ngFor="let habilidad of persona?.habilidades">{{habilidad}}</li>
+        </ul>
+    </div>
+</div>
